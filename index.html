@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaygOps - Digitalise Your Field Operations | Modern Microservices Platform</title>
+    <meta name="description" content="Comprehensive software solutions to digitalise field operations. Interoperable microservices for leads, payments, inventory, and ticketing.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+        }
+        
+        .mesh-gradient {
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(200,100%,74%,0.1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,96%,0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(200,100%,96%,0.1) 0px, transparent 50%);
+        }
+        
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .service-card:hover .icon-wrapper {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            color: white;
+        }
+        
+        .marquee {
+            animation: marquee 30s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="font-sans text-gray-800 antialiased mesh-gradient overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        P
+                    </div>
+                    <span class="font-display font-bold text-2xl text-gray-900 tracking-tight">Payg<span class="text-primary-600">Ops</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#microservices" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Microservices</a>
+                    <a href="#features" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Features</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Pricing</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">About</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="hidden md:block text-gray-600 hover:text-primary-600 font-medium transition-colors">Sign In</button>
+                    <button class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg hover:shadow-primary-500/30">
+                        Get Started
+                    </button>
+                    <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#microservices" class="block px-3 py-2 text-gray-600 hover:text-primary-600 font-medium">Microservices</a>
+                <a href="#features" class="block px-3 py-2 text-gray-600 hover:text-primary-600 font-medium">Features</a>
+                <a href="#pricing" class="block px-3 py-2 text-gray-600 hover:text-primary-600 font-medium">Pricing</a>
+                <a href="#about" class="block px-3 py-2 text-gray-600 hover:text-primary-600 font-medium">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 hero-gradient"></div>
+        
+        <!-- Animated Background Elements -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style="animation-delay: 2s"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center space-x-2 bg-primary-50 border border-primary-100 rounded-full px-4 py-2 text-primary-700 text-sm font-medium">
+                        <span class="flex h-2 w-2 rounded-full bg-primary-600 animate-pulse"></span>
+                        <span>Now serving 40+ countries worldwide</span>
+                    </div>
+                    
+                    <h1 class="font-display text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
+                        Digitalise Your <br>
+                        <span class="gradient-text">Field Operations</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-600 leading-relaxed max-w-lg">
+                        Interoperable microservices to streamline processes from leads to contracts, payments, ticketing, and inventory. Built for last-mile distributors.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl hover:shadow-primary-500/30 flex items-center justify-center space-x-2 group">
+                            <span>Start Free Trial</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                        <button class="bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 px-8 py-4 rounded-full font-semibold text-lg transition-all flex items-center justify-center space-x-2">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-primary-600"></i>
+                            <span>Watch Demo</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-primary-100 border-2 border-white flex items-center justify-center text-xs font-bold text-primary-700">A</div>
+                            <div class="w-8 h-8 rounded-full bg-accent-100 border-2 border-white flex items-center justify-center text-xs font-bold text-accent-700">B</div>
+                            <div class="w-8 h-8 rounded-full bg-green-100 border-2 border-white flex items-center justify-center text-xs font-bold text-green-700">C</div>
+                        </div>
+                        <p>Trusted by <span class="font-semibold text-gray-900">500+</span> distributors</p>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="relative bg-white rounded-3xl shadow-2xl p-6 border border-gray-100 transform hover:rotate-1 transition-transform duration-500">
+                        <div class="absolute -top-4 -right-4 bg-accent-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse-slow">
+                            Live Dashboard
+                        </div>
+                        
+                        <!-- Mock Dashboard -->
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                        <i data-lucide="layout-dashboard" class="w-5 h-5 text-primary-600"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Operations Overview</div>
+                                        <div class="text-xs text-gray-500">Real-time metrics</div>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <div class="text-2xl font-bold text-gray-900">24.5k</div>
+                                    <div class="text-sm text-gray-500">Active Contracts</div>
+                                    <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-primary-500 w-3/4 rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <div class="text-2xl font-bold text-gray-900">98.2%</div>
+                                    <div class="text-sm text-gray-500">Collection Rate</div>
+                                    <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-green-500 w-[98%] rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                                <div class="flex justify-between text-sm font-medium text-gray-700">
+                                    <span>Recent Payments</span>
+                                    <span class="text-primary-600">View All</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                                <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+                                            </div>
+                                            <span class="text-sm font-medium">John D.</span>
+                                        </div>
+                                        <span class="text-sm font-bold text-gray-900">$45.00</span>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                                <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+                                            </div>
+                                            <span class="text-sm font-medium">Sarah M.</span>
+                                        </div>
+                                        <span class="text-sm font-bold text-gray-900">$32.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Elements -->
+                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-4 border border-gray-100 animate-float">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="trending-up" class="w-6 h-6 text-green-600"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500">Revenue Growth</div>
+                                <div class="text-xl font-bold text-green-600">+127%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="stat-card bg-gray-50 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-display font-bold text-primary-600 mb-2 counter" data-target="10">0</div>
+                    <div class="text-gray-600 font-medium">Years Experience</div>
+                </div>
+                <div class="stat-card bg-gray-50 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-display font-bold text-primary-600 mb-2 counter" data-target="6">0</div>
+                    <div class="text-gray-600 font-medium">Million People Impacted</div>
+                </div>
+                <div class="stat-card bg-gray-50 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-display font-bold text-primary-600 mb-2 counter" data-target="40">0</div>
+                    <div class="text-gray-600 font-medium">Countries Served</div>
+                </div>
+                <div class="stat-card bg-gray-50 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-display font-bold text-primary-600 mb-2">1M+</div>
+                    <div class="text-gray-600 font-medium">Transactions/Hour</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Microservices Section -->
+    <section id="microservices" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-4xl font-bold text-gray-900 mb-4">Modular Microservices</h2>
+                <p class="text-xl text-gray-600">Build your perfect operational toolkit. Select from our range of interoperable microservices, each designed to streamline specific aspects of your field operations.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Leads -->
+                <div class="service-card bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl reveal">
+                    <div class="icon-wrapper w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                        <i data-lucide="users" class="w-7 h-7 text-primary-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Leads Management</h3>
+                    <p class="text-gray-600 mb-4">Maximize sales potential with customizable KYC forms, prospect management, and sales pipeline analytics.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-sm font-medium text-primary-600">From $0.05/month</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1 group">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Credit & Subscription -->
+                <div class="service-card bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl reveal">
+                    <div class="icon-wrapper w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                        <i data-lucide="credit-card" class="w-7 h-7 text-primary-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Credit & Subscription</h3>
+                    <p class="text-gray-600 mb-4">Seamless control over loan and usage-based contracts with advanced CRM and credit scoring capabilities.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-sm font-medium text-primary-600">From $0.10/month</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1 group">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- One-Off Payments -->
+                <div class="service-card bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl reveal">
+                    <div class="icon-wrapper w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                        <i data-lucide="banknote" class="w-7 h-7 text-primary-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">One-Off Payments</h3>
+                    <p class="text-gray-600 mb-4">Streamline cash contracts and retail sales management with thorough client information and reconciliation.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-sm font-medium text-primary-600">From $0.05/month</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1 group">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ticketing -->
+                <div class="service-card bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl reveal">
+                    <div class="icon-wrapper w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                        <i data-lucide="ticket" class="w-7 h-7 text-primary-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Ticketing System</h3>
+                    <p class="text-gray-600 mb-4">Elevate after-sales support with custom reports, task assignment, and comprehensive analytics.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-sm font-medium text-primary-600">From $0.05/month</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1 group">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inventory -->
+                <div class="service-card bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl reveal">
+                    <div class="icon-wrapper w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                        <i data-lucide="package" class="w-7 h-7 text-primary-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Inventory Control</h3>
+                    <p class="text-gray-600 mb-4">Complete stock management with serial number tracking, ownership details, and movement history.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-sm font-medium text-primary-600">From $0.10/month</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center space-x-1 group">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Agent App -->
+                <div class="service-card bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 shadow-lg text-white reveal">
+                    <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-3">Agent Mobile App</h3>
+                    <p class="text-white/90 mb-4">Empower field agents with offline functionality for sales, registration, and customer service.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/20">
+                        <span class="text-sm font-medium text-white/80">From $0.02/month</span>
+                        <button class="text-white font-medium text-sm flex items-center space-x-1 group">
+                            <span>Download</span>
+                            <i data-lucide="download" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extra Features -->
+    <section id="features" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Extra Features & Integrations</h2>
+                    <p class="text-lg text-gray-600 mb-8">Enhance your microservices with advanced capabilities designed for scale.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="message-square" class="w-6 h-6 text-accent-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-lg">SMS Communications</h4>
+                                <p class="text-gray-600">Automated campaigns for onboarding, payments, and token activation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="key" class="w-6 h-6 text-accent-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-lg">PAYG Token Activation</h4>
+                                <p class="text-gray-600">Seamless device activation via SMS tokens or GSM functionality.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="bar-chart-3" class="w-6 h-6 text-accent-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-lg">Advanced Analytics</h4>
+                                <p class="text-gray-600">Custom dashboards for desktop and mobile with real-time insights.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="plug" class="w-6 h-6 text-accent-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 text-lg">API & Integrations</h4>
+                                <p class="text-gray-600">Connect with 100+ apps including Mobile Money, TelCo, and custom workflows.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl transform rotate-3 opacity-20"></div>
+                    <div class="relative bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-display text-xl font-bold text-gray-900">Integration Ecosystem</h3>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">100+ Apps</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-4 gap-4 mb-6">
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="message-circle" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="phone" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="wallet" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="cloud" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="database" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="shield" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer">
+                                <i data-lucide="globe" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="aspect-square bg-primary-50 rounded-xl flex items-center justify-center border-2 border-primary-200 border-dashed cursor-pointer">
+                                <i data-lucide="plus" class="w-8 h-8 text-primary-600"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm font-medium text-gray-700">Live Connection</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Mobile Money API</span>
+                                    <span class="text-green-600 font-medium">Active</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">SMS Gateway</span>
+                                    <span class="text-green-600 font-medium">Active</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">CRM Sync</span>
+                                    <span class="text-green-600 font-medium">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compatibility Section -->
+    <section class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div class="text-center reveal">
+                <h2 class="font-display text-3xl font-bold text-gray-900 mb-4">Compatible with 45+ Device Brands</h2>
+                <p class="text-gray-600">Seamlessly integrate with your existing hardware ecosystem</p>
+            </div>
+        </div>
+        
+        <div class="relative">
+            <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+            
+            <div class="flex space-x-12 animate-marquee whitespace-nowrap">
+                <div class="flex space-x-12 items-center opacity-60 grayscale hover:grayscale-0 transition-all">
+                    <span class="text-2xl font-bold text-gray-400">Azuri</span>
+                    <span class="text-2xl font-bold text-gray-400">Solarly</span>
+                    <span class="text-2xl font-bold text-gray-400">Dynamiss</span>
+                    <span class="text-2xl font-bold text-gray-400">OAF</span>
+                    <span class="text-2xl font-bold text-gray-400">BrightLife</span>
+                    <span class="text-2xl font-bold text-gray-400">Ennos</span>
+                    <span class="text-2xl font-bold text-gray-400">BioLite</span>
+                    <span class="text-2xl font-bold text-gray-400">SunKing</span>
+                </div>
+                <div class="flex space-x-12 items-center opacity-60 grayscale hover:grayscale-0 transition-all">
+                    <span class="text-2xl font-bold text-gray-400">Azuri</span>
+                    <span class="text-2xl font-bold text-gray-400">Solarly</span>
+                    <span class="text-2xl font-bold text-gray-400">Dynamiss</span>
+                    <span class="text-2xl font-bold text-gray-400">OAF</span>
+                    <span class="text-2xl font-bold text-gray-400">BrightLife</span>
+                    <span class="text-2xl font-bold text-gray-400">Ennos</span>
+                    <span class="text-2xl font-bold text-gray-400">BioLite</span>
+                    <span class="text-2xl font-bold text-gray-400">SunKing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-24 bg-primary-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-500 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center reveal">
+                <i data-lucide="quote" class="w-16 h-16 text-primary-400 mx-auto mb-8 opacity-50"></i>
+                <blockquote class="text-3xl md:text-4xl font-display font-medium leading-tight mb-8">
+                    "Where we identified features that weren't available or didn't work in a way that matched our processes, PaygOps was always quick to respond and find solutions. Overall, we are delighted with the success of the project!"
+                </blockquote>
+                <div class="flex items-center justify-center space-x-4">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">
+                        NP
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-xl">Nigel Preston</div>
+                        <div class="text-primary-200">Co-Founder and VP of Product Development at Azuri Technologies</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Source Section -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1 reveal">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-200">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <i data-lucide="github" class="w-8 h-8 text-gray-900"></i>
+                            <span class="font-display text-2xl font-bold">OpenPAYGO™</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">Free and secure open-source technology to help accelerate access to life-changing amenities.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 text-sm text-gray-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                                <span>Token generation algorithms</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-sm text-gray-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                                <span>Secure device activation</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-sm text-gray-700">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                                <span>Community driven development</span>
+                            </div>
+                        </div>
+                        <button class="mt-8 w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center space-x-2">
+                            <span>View on GitHub</span>
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2 reveal">
+                    <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Committed to Open Source</h2>
+                    <p class="text-lg text-gray-600 mb-6">We believe in democratizing access to essential technology. Our OpenPAYGO™ Suite offers free, secure, open-source tools to accelerate access to life-changing amenities worldwide.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start space-x-3">
+                            <i data-lucide="unlock" class="w-6 h-6 text-primary-600 flex-shrink-0 mt-1"></i>
+                            <span class="text-gray-700">Free forever for social impact organizations</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-primary-600 flex-shrink-0 mt-1"></i>
+                            <span class="text-gray-700">Bank-grade security standards</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i data-lucide="users" class="w-6 h-6 text-primary-600 flex-shrink-0 mt-1"></i>
+                            <span class="text-gray-700">Supported by global developer community</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investors Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-8 reveal">Supported by major social impact investors</p>
+            <div class="flex flex-wrap justify-center items-center gap-12 opacity-60 reveal">
+                <div class="h-12 w-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-12 w-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-12 w-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-12 w-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-12 w-32 bg-gray-200 rounded-lg"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800"></div>
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-400 rounded-full filter blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6 reveal">Ready to Digitalise Your Operations?</h2>
+            <p class="text-xl text-primary-100 mb-10 reveal">Join 500+ distributors already using PaygOps to scale their impact. Start your free trial today.</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
+                <button class="bg-white text-primary-700 hover:bg-gray-100 px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-xl">
+                    Get Started Free
+                </button>
+                <button class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold text-lg transition-all">
+                    Contact Sales
+                </button>
+            </div>
+            
+            <p class="mt-6 text-primary-200 text-sm reveal">No credit card required • 14-day free trial • Cancel anytime</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold">P</div>
+                        <span class="font-display font-bold text-xl text-white">PaygOps</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-sm">Empowering suppliers of essential products with flexible IT solutions to serve the unbanked worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Microservices</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API Docs</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Open Source</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500">© 2026 PaygOps. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0 text-sm text-gray-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+        
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            gsap.to(counter, {
+                innerHTML: target,
+                duration: 2,
+                snap: { innerHTML: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 80%",
+                    once: true
+                }
+            });
+        });
+        
+        // Reveal Animations
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach((element, index) => {
+            gsap.fromTo(element, 
+                { 
+                    opacity: 0, 
+                    y: 30 
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+        
+        // Service Cards Stagger
+        gsap.from(".service-card", {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: "#microservices",
+                start: "top 70%"
+            }
+        });
+        
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
